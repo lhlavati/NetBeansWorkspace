@@ -14,12 +14,14 @@ import java.awt.event.KeyEvent;
 public class Kalkulator extends javax.swing.JFrame {
 
     private int prviBroj;
+    private char matOperacija;
+
     /**
      * Creates new form Kalkulator
      */
     public Kalkulator() {
         initComponents();
-       
+
     }
 
     /**
@@ -45,6 +47,10 @@ public class Kalkulator extends javax.swing.JFrame {
         lblRezultat = new javax.swing.JLabel();
         btnReset = new javax.swing.JButton();
         btnJednako = new javax.swing.JButton();
+        btnMinus = new javax.swing.JButton();
+        btnPuta = new javax.swing.JButton();
+        btnDjeljenje = new javax.swing.JButton();
+        btnObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Kalkulator");
@@ -151,6 +157,34 @@ public class Kalkulator extends javax.swing.JFrame {
             }
         });
 
+        btnMinus.setText("-");
+        btnMinus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMinusActionPerformed(evt);
+            }
+        });
+
+        btnPuta.setText("*");
+        btnPuta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPutaActionPerformed(evt);
+            }
+        });
+
+        btnDjeljenje.setText("/");
+        btnDjeljenje.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDjeljenjeActionPerformed(evt);
+            }
+        });
+
+        btnObrisi.setText("Ce");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -159,36 +193,47 @@ public class Kalkulator extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblRezultat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btn4)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btn5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btn6))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btn1)
-                                .addComponent(btnReset))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btn2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btn3)
-                                    .addGap(0, 0, Short.MAX_VALUE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(btn0)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(btnJednako, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE))))
-                        .addGroup(layout.createSequentialGroup()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(btn7)
-                                .addComponent(btnPlus))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btn8)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(btn9))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btn1)
+                            .addComponent(btnReset))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn3)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn0)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnJednako, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btn4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn6))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btn7)
+                                    .addComponent(btnPlus))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btn8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btn9))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnMinus)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(btnObrisi)
+                                            .addComponent(btnPuta)))))
+                            .addComponent(btnDjeljenje))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -196,8 +241,15 @@ public class Kalkulator extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(lblRezultat, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(btnPlus)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDjeljenje)
+                    .addComponent(btnObrisi))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnPlus)
+                    .addComponent(btnMinus)
+                    .addComponent(btnPuta))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn7)
@@ -238,7 +290,7 @@ public class Kalkulator extends javax.swing.JFrame {
     }//GEN-LAST:event_btn2ActionPerformed
 
     private void btn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn3ActionPerformed
-       dodajBroj("3");
+        dodajBroj("3");
     }//GEN-LAST:event_btn3ActionPerformed
 
     private void btn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn4ActionPerformed
@@ -270,44 +322,76 @@ public class Kalkulator extends javax.swing.JFrame {
     }//GEN-LAST:event_btn0ActionPerformed
 
     private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
-       String unutra = lblRezultat.getText();
-       if(unutra.length()==1){
-           lblRezultat.setText("0");
-           return;
-       }
-        System.out.println(unutra);
-        System.out.println(unutra.length());
-        System.out.println(unutra.length()-1);
-        System.out.println(unutra.substring(0,unutra.length()-1));
-       lblRezultat.setText(unutra.substring(0,unutra.length()-1));
+        lblRezultat.setText("0");
+        prviBroj = 0;
     }//GEN-LAST:event_btnResetActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         //OVO MI NE RADI 
         System.out.println("tipka");
-        if(evt.getKeyCode()==KeyEvent.VK_1){
-           btn1ActionPerformed(null);
-       }
+        if (evt.getKeyCode() == KeyEvent.VK_1) {
+            btn1ActionPerformed(null);
+        }
     }//GEN-LAST:event_formKeyPressed
 
     private void btnPlusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPlusActionPerformed
-       prviBroj=Integer.parseInt(lblRezultat.getText());
-       lblRezultat.setText("0");
+        prviBroj = Integer.parseInt(lblRezultat.getText());
+        lblRezultat.setText("0");
+        matOperacija = '+';
     }//GEN-LAST:event_btnPlusActionPerformed
 
     private void btnJednakoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJednakoActionPerformed
         int drugiBroj = Integer.parseInt(lblRezultat.getText());
-        //lblRezultat.setText(String.valueOf(prviBroj+drugiBroj));
-        lblRezultat.setText(""+(prviBroj+drugiBroj));
+        switch(matOperacija){
+            case '+':
+                lblRezultat.setText(String.valueOf(prviBroj + drugiBroj));
+                break;
+            case '-':
+                lblRezultat.setText(String.valueOf(prviBroj - drugiBroj));
+                break;
+            case '*':
+                lblRezultat.setText(String.valueOf(prviBroj * drugiBroj));
+                break;
+            case '/':
+                lblRezultat.setText(String.valueOf(prviBroj / drugiBroj));
+                break;
+        }
     }//GEN-LAST:event_btnJednakoActionPerformed
 
-   private void dodajBroj(String broj){
-       String unutra = lblRezultat.getText();
-       if(unutra.length()==5){
-           return; //short cuircuiting
-       }
-       lblRezultat.setText((unutra.equals("0") ? "" : unutra) + broj);
-   }
+    private void btnMinusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMinusActionPerformed
+        prviBroj = Integer.parseInt(lblRezultat.getText());
+        lblRezultat.setText("0");
+        matOperacija = '-';
+    }//GEN-LAST:event_btnMinusActionPerformed
+
+    private void btnPutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPutaActionPerformed
+        prviBroj = Integer.parseInt(lblRezultat.getText());
+        lblRezultat.setText("0");
+        matOperacija = '*';
+    }//GEN-LAST:event_btnPutaActionPerformed
+
+    private void btnDjeljenjeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDjeljenjeActionPerformed
+        prviBroj = Integer.parseInt(lblRezultat.getText());
+        lblRezultat.setText("0");
+        matOperacija = '/';
+    }//GEN-LAST:event_btnDjeljenjeActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        String unutra = lblRezultat.getText();
+        if (unutra.length() == 1) {
+            lblRezultat.setText("0");
+            return;
+        }
+        lblRezultat.setText(unutra.substring(0, unutra.length() - 1));
+    }//GEN-LAST:event_btnObrisiActionPerformed
+
+    private void dodajBroj(String broj) {
+        String unutra = lblRezultat.getText();
+        if (unutra.length() == 5) {
+            return; //short cuircuiting
+        }
+        lblRezultat.setText((unutra.equals("0") ? "" : unutra) + broj);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn0;
@@ -320,8 +404,12 @@ public class Kalkulator extends javax.swing.JFrame {
     private javax.swing.JButton btn7;
     private javax.swing.JButton btn8;
     private javax.swing.JButton btn9;
+    private javax.swing.JButton btnDjeljenje;
     private javax.swing.JButton btnJednako;
+    private javax.swing.JButton btnMinus;
+    private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPlus;
+    private javax.swing.JButton btnPuta;
     private javax.swing.JButton btnReset;
     private javax.swing.JLabel lblRezultat;
     // End of variables declaration//GEN-END:variables

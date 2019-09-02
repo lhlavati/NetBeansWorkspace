@@ -1,0 +1,11 @@
+
+Ako želim vidjeti upite s vriejdosnitma na bazuz
+u my.ini (xampp -> config -> my.ini
+u dio 
+# The MySQL server
+[mysqld]
+dodam
+#general_log_file        = f:\mysql.log
+#general_log             = 1
+
+bez znaka # - to je komentar

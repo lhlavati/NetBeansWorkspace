@@ -5,7 +5,10 @@
  */
 package edunova;
 
+import edunova.test.TestSmjer;
 import edunova.utility.HibernateUtil;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,7 +17,10 @@ import edunova.utility.HibernateUtil;
 public class Start {
     
     public static void main(String[] args) {
-        HibernateUtil.getSession();
+       
+            //HibernateUtil.getSession();
+            TestSmjer.test();
+       
     }
     
 }

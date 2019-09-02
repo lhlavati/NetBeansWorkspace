@@ -17,10 +17,9 @@ import javax.persistence.Id;
  */
 //@Entity(name = "smjer_tablica")
 @Entity
-public class Smjer implements Serializable {
+public class Smjer extends Entitet implements Serializable {
     
-    @Id
-    private Integer sifra;
+   
     //@Column(name = "naz", length = 34, columnDefinition = "char")
     private String naziv;
     private BigDecimal cijena;
@@ -28,26 +27,14 @@ public class Smjer implements Serializable {
     private Integer trajanje;
     private boolean certificiran;
     
-    @Column(name = "ttt", 
-            columnDefinition = "char(11)",
-            nullable = true)
-    private String nova;
-
-    public String getNova() {
-        return nova;
-    }
-
-    public void setNova(String nova) {
-        this.nova = nova;
-    }
-    
     
 
     public Smjer() {
+        super();
     }
 
     public Smjer(Integer sifra, String naziv, BigDecimal cijena, BigDecimal upisnina, Integer trajanje, boolean certificiran) {
-        this.sifra = sifra;
+        super(sifra);
         this.naziv = naziv;
         this.cijena = cijena;
         this.upisnina = upisnina;
@@ -55,13 +42,7 @@ public class Smjer implements Serializable {
         this.certificiran = certificiran;
     }
 
-    public Integer getSifra() {
-        return sifra;
-    }
-
-    public void setSifra(Integer sifra) {
-        this.sifra = sifra;
-    }
+   
 
     public String getNaziv() {
         return naziv;

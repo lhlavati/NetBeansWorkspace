@@ -39,6 +39,7 @@
         
         
         <!-- Ovdje navodimo naše mapirane klase -->
+        <mapping class="edunova.model.Operater" />
         <mapping class="edunova.model.Smjer" />
         <mapping class="edunova.model.Polaznik" />
         <mapping class="edunova.model.Predavac" />

@@ -5,6 +5,7 @@
  */
 package edunova;
 
+import edunova.test.TestOperater;
 import edunova.test.TestSmjer;
 import edunova.utility.HibernateUtil;
 import java.util.logging.Level;
@@ -19,7 +20,7 @@ public class Start {
     public static void main(String[] args) {
        
             //HibernateUtil.getSession();
-            TestSmjer.test();
+            TestOperater.test();
        
     }
     

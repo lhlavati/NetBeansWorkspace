@@ -13,21 +13,35 @@ import java.util.List;
  *
  * @author Admin
  */
-public class ObradaSmjer extends Obrada<Smjer>{
+public class ObradaSmjer extends Obrada<Smjer> {
 
-    
-    public List<Smjer> getSmjerovi(){
+    @Override
+    public List<Smjer> getEntiteti() {
         return session.createQuery("from Smjer").list();
     }
-    
+
     @Override
-    protected void kontrolaSpremi() throws EdunovaException{
-      //napisati kontrole 
+    protected void kontrolaSpremi(Smjer entitet) throws EdunovaException {
+        kontrolaNaziv(entitet);
+        kontrolaTrajanje(entitet);
     }
 
     @Override
-    protected void kontrolaBrisi()throws EdunovaException {
-        
+    protected void kontrolaBrisi(Smjer entitet) throws EdunovaException {
+
     }
-    
+
+    private void kontrolaNaziv(Smjer entitet) throws EdunovaException {
+        if (entitet.getNaziv() == null
+                || entitet.getNaziv().trim().length() == 0) {
+            throw new EdunovaException("Naziv smjera obavezno");
+        }
+    }
+
+    private void kontrolaTrajanje(Smjer entitet) throws EdunovaException {
+        if (entitet.getTrajanje() <= 0 || entitet.getTrajanje() > 300) {
+            throw new EdunovaException("Trajanje mora biti između 1 i 300 sati");
+        }
+    }
+
 }

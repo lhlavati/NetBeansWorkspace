@@ -39,7 +39,7 @@ public class TestSmjer {
             System.out.println(e.getPoruka());
         }
 
-        for (Smjer smjer : obrada.getSmjerovi()) {
+        for (Smjer smjer : obrada.getEntiteti()) {
             System.out.println(smjer.getSifra() + ": "
                     + smjer.getNaziv());
         }

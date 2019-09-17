@@ -8,6 +8,8 @@ package edunova;
 import edunova.test.TestOperater;
 import edunova.test.TestSmjer;
 import edunova.utility.HibernateUtil;
+import edunova.view.Autorizacija;
+import edunova.view.SplashScreen;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +22,8 @@ public class Start {
     public static void main(String[] args) {
        
             //HibernateUtil.getSession();
-            TestOperater.test();
+            //TestOperater.test();
+            new SplashScreen().setVisible(true);
        
     }
     

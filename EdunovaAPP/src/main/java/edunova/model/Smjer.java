@@ -83,7 +83,13 @@ public class Smjer extends Entitet implements Serializable {
     public void setCertificiran(boolean certificiran) {
         this.certificiran = certificiran;
     }
-    
+
+    /*
+    @Override
+    public String toString() {
+        return naziv;
+    }
+    */
     
 
     

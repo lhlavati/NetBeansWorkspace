@@ -5,6 +5,17 @@
  */
 package edunova.view;
 
+import edunova.controller.ObradaOperater;
+import edunova.model.Operater;
+import edunova.utility.Utility;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import javax.swing.JComponent;
+import javax.swing.JOptionPane;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.mindrot.jbcrypt.BCrypt;
+
+
 /**
  *
  * @author Admin
@@ -16,6 +27,11 @@ public class Autorizacija extends javax.swing.JFrame {
      */
     public Autorizacija() {
         initComponents();
+        setTitle(Utility.getNazivAplikacije());
+        if(Utility.isDev()){
+            txtEmail.setText("tjakopec@gmail.com");
+            pswLozinka.setText("t");
+        }
     }
 
     /**
@@ -27,25 +43,147 @@ public class Autorizacija extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        pswLozinka = new javax.swing.JPasswordField();
+        btnAutoriziraj = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Edunova APP Autorizacija");
+
+        jLabel1.setText("Email");
+
+        jLabel2.setText("Lozinka");
+
+        txtEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        txtEmail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtEmailKeyPressed(evt);
+            }
+        });
+
+        pswLozinka.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        pswLozinka.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                pswLozinkaKeyPressed(evt);
+            }
+        });
+
+        btnAutoriziraj.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnAutoriziraj.setText("Autoriziraj");
+        btnAutoriziraj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAutorizirajActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(99, 186, Short.MAX_VALUE))
+                    .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pswLozinka, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnAutoriziraj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pswLozinka, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnAutoriziraj, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAutorizirajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutorizirajActionPerformed
+        if(txtEmail.getText().trim().length()==0){
+            greska(txtEmail, "Email obavezan");
+            return;
+        }
+        //factory pattern
+        EmailValidator emailValidator = EmailValidator.getInstance();
+        if(!emailValidator.isValid(txtEmail.getText())){
+            greska(txtEmail,"Obavezan unos valjane email adrese");
+            return;
+        }
+        
+        txtEmail.setBackground(Color.WHITE);
+        txtEmail.setForeground(Color.BLACK);
+        
+        if(pswLozinka.getPassword().length==0){
+            greska(pswLozinka, "Lozinka obavezno");
+            return;
+        }
+        
+        pswLozinka.setBackground(Color.WHITE);
+        pswLozinka.setForeground(Color.BLACK);
+        
+        
+        Operater o = new ObradaOperater().getOperater(txtEmail.getText());
+        
+        if(o==null){
+            JOptionPane.showMessageDialog(null, "Ne postojeći email");
+            txtEmail.requestFocus();
+            return;
+        }
+        
+        if(!BCrypt.checkpw(new String(pswLozinka.getPassword()), 
+                o.getLozinka())){
+            JOptionPane.showMessageDialog(null, 
+                    "Kombinacija email i lozinka ne odgovara");
+            pswLozinka.requestFocus();
+            return;
+        }
+        
+        new Izbornik().setVisible(true);
+        dispose();
+        
+    }//GEN-LAST:event_btnAutorizirajActionPerformed
+
+    private void txtEmailKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEmailKeyPressed
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            btnAutorizirajActionPerformed(null);
+        }
+    }//GEN-LAST:event_txtEmailKeyPressed
+
+    private void pswLozinkaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pswLozinkaKeyPressed
+        txtEmailKeyPressed(evt);
+    }//GEN-LAST:event_pswLozinkaKeyPressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAutoriziraj;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JPasswordField pswLozinka;
+    private javax.swing.JTextField txtEmail;
     // End of variables declaration//GEN-END:variables
+
+    private void greska(JComponent komponenta, String poruka) {
+        JOptionPane.showMessageDialog(null, poruka);
+        komponenta.setBackground(Color.RED);
+        komponenta.setForeground(Color.WHITE);
+        komponenta.requestFocus();
+    }
 }

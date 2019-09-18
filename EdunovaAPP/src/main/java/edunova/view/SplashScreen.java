@@ -6,6 +6,7 @@
 package edunova.view;
 
 import edunova.controller.ObradaSmjer;
+import java.awt.Color;
 
 /**
  *
@@ -18,6 +19,7 @@ public class SplashScreen extends javax.swing.JFrame {
      */
     public SplashScreen() {
         initComponents();
+        //setBackground(new Color(0,0,0,0));
         Ucitavanje ucitavanje = new Ucitavanje();
         ucitavanje.start();
     }

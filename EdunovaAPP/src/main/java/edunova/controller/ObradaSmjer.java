@@ -29,12 +29,30 @@ public class ObradaSmjer extends Obrada<Smjer> {
     @Override
     protected void kontrolaBrisi(Smjer entitet) throws EdunovaException {
 
+        if(entitet.getGrupe().size()>0){
+            throw new EdunovaException("Smjer se ne može obrisati jer ima na sebi grupe");
+        }
+      
     }
 
     private void kontrolaNaziv(Smjer entitet) throws EdunovaException {
+       
+        if(entitet.getNaziv()!=null){
+            entitet.setNaziv(entitet.getNaziv().trim());
+        }
+        
+        
         if (entitet.getNaziv() == null
                 || entitet.getNaziv().trim().length() == 0) {
             throw new EdunovaException("Naziv smjera obavezno");
+        }
+        
+        if (entitet.getNaziv().length() >255) {
+            throw new EdunovaException("Naziv smjera predugačko");
+        }
+        
+        if (entitet.getNaziv().trim().length()>255) {
+            entitet.setNaziv(entitet.getNaziv().trim().substring(0,255));
         }
     }
 

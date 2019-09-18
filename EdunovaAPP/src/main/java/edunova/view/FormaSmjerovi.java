@@ -7,8 +7,13 @@ package edunova.view;
 
 import edunova.controller.ObradaSmjer;
 import edunova.model.Smjer;
+import edunova.utility.EdunovaException;
 import edunova.utility.Utility;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,6 +22,7 @@ import javax.swing.DefaultListModel;
 public class FormaSmjerovi extends javax.swing.JFrame {
 
     private ObradaSmjer obrada;
+
     /**
      * Creates new form FormaSmjerovi
      */
@@ -49,6 +55,9 @@ public class FormaSmjerovi extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtUpisnina = new javax.swing.JTextField();
         chbCertificiran = new javax.swing.JCheckBox();
+        btnDodaj = new javax.swing.JButton();
+        btnPromjeni = new javax.swing.JButton();
+        btnObrisi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -128,6 +137,27 @@ public class FormaSmjerovi extends javax.swing.JFrame {
                 .addGap(0, 10, Short.MAX_VALUE))
         );
 
+        btnDodaj.setText("Dodaj");
+        btnDodaj.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajActionPerformed(evt);
+            }
+        });
+
+        btnPromjeni.setText("Promjeni");
+        btnPromjeni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPromjeniActionPerformed(evt);
+            }
+        });
+
+        btnObrisi.setText("Obriši");
+        btnObrisi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnObrisiActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,7 +166,15 @@ public class FormaSmjerovi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnDodaj)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnPromjeni)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnObrisi)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -145,7 +183,13 @@ public class FormaSmjerovi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnDodaj)
+                            .addComponent(btnPromjeni)
+                            .addComponent(btnObrisi))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
 
@@ -154,29 +198,149 @@ public class FormaSmjerovi extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void listaValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listaValueChanged
-        if(evt.getValueIsAdjusting()){
+        if (evt.getValueIsAdjusting()) {
             return;
         }
         Smjer s = lista.getSelectedValue();
+        if(s==null){
+            return;
+        }
         txtNaziv.setText(s.getNaziv());
-        
-        txtTrajanje.setText(s.getTrajanje()==null ? "" :
-                s.getTrajanje().toString());
-        
-        txtCijena.setText(s.getCijena()==null ? "" : 
-                s.getCijena().toString());
-        
-        txtUpisnina.setText(s.getUpisnina()==null ? "" : 
-                s.getUpisnina().toString());
-        
+
+        txtTrajanje.setText(s.getTrajanje() == null ? ""
+                : s.getTrajanje().toString());
+
+        txtCijena.setText(s.getCijena() == null ? ""
+                : s.getCijena().toString());
+
+        txtUpisnina.setText(s.getUpisnina() == null ? ""
+                : s.getUpisnina().toString());
+
         chbCertificiran.setSelected(s.isCertificiran());
-        
-        
+
+
     }//GEN-LAST:event_listaValueChanged
 
-  
+    private void btnDodajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajActionPerformed
+        Smjer s = new Smjer();
+        
+        spremi(s);
+
+
+    }//GEN-LAST:event_btnDodajActionPerformed
+
+    private void spremi(Smjer s){
+        if(!kontrola(s)){
+            return;
+        }
+
+        s.setCertificiran(chbCertificiran.isSelected());
+
+        try {
+            obrada.spremi(s);
+        } catch (EdunovaException ex) {
+            JOptionPane.showMessageDialog(null, ex.getPoruka());
+            return;
+        }
+
+        ucitaj();
+    }
+    
+    private boolean kontrola(Smjer s){
+        
+        if(txtNaziv.getText().trim().length()==0){
+           JOptionPane.showMessageDialog(null, "Naziv obavezno");
+                return false; 
+        }
+        
+        
+        s.setNaziv(txtNaziv.getText());
+
+            try {
+                s.setTrajanje(Integer.parseInt(txtTrajanje.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Trajanje mora biti broj");
+                return false;
+            }
+        
+
+        if (txtCijena.getText().trim().length() > 0) {
+            try {
+                s.setCijena(new BigDecimal(txtCijena.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Cijena mora biti broj");
+                return false;
+            }
+        }
+
+        if (txtUpisnina.getText().trim().length() > 0) {
+            try {
+                s.setUpisnina(new BigDecimal(txtUpisnina.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Upisnina mora biti broj");
+                return false;
+            }
+        }else{
+            s.setUpisnina(BigDecimal.ZERO);
+        }
+        
+        
+        return true;
+    }
+    private void btnPromjeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjeniActionPerformed
+        
+        Smjer s = lista.getSelectedValue();
+        if(s==null){
+            JOptionPane.showMessageDialog(null, "Prvo odaberite stavku");
+            return;
+        }
+        
+        spremi(s);
+        
+        
+    }//GEN-LAST:event_btnPromjeniActionPerformed
+
+    private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
+        Smjer s = lista.getSelectedValue();
+        if(s==null){
+            JOptionPane.showMessageDialog(null, "Prvo odaberite stavku");
+            return;
+            
+            
+        }
+        /*
+        if(s.getGrupe().size()>0){
+                 JOptionPane.showMessageDialog(null, "Ne možete obrisati ovu grupu");
+            return;
+            }
+        */
+        if(JOptionPane.showConfirmDialog(
+                null, //roditelj, bude null
+                "Sigurno obrisati" + s.getNaziv(), //tijelo dijaloga
+                "Brisanje smjera", // naslov
+                JOptionPane.YES_NO_OPTION, //vrsta opcija
+                JOptionPane.QUESTION_MESSAGE) //ikona
+                ==JOptionPane.NO_OPTION){
+            return;
+        }
+        
+        
+        try {
+            obrada.brisi(s);
+        } catch (EdunovaException ex) {
+            JOptionPane.showMessageDialog(null, ex.getPoruka());
+            return;
+        }
+        
+        ucitaj();
+        
+    }//GEN-LAST:event_btnObrisiActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDodaj;
+    private javax.swing.JButton btnObrisi;
+    private javax.swing.JButton btnPromjeni;
     private javax.swing.JCheckBox chbCertificiran;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -194,13 +358,13 @@ public class FormaSmjerovi extends javax.swing.JFrame {
     private void ucitaj() {
         DefaultListModel<Smjer> model = new DefaultListModel<>();
         obrada.getEntiteti().forEach(
-                (smjer)->{
+                (smjer) -> {
                     model.addElement(smjer);
                 });
-        
+
         lista.setModel(model);
         lista.repaint();
-    }  
+    }
 
     @Override
     public void list() {

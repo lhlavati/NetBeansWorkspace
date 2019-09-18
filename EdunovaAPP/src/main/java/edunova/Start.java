@@ -5,13 +5,8 @@
  */
 package edunova;
 
-import edunova.test.TestOperater;
-import edunova.test.TestSmjer;
-import edunova.utility.HibernateUtil;
-import edunova.view.Autorizacija;
+import edunova.test.TestGrupa;
 import edunova.view.SplashScreen;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -24,6 +19,7 @@ public class Start {
             //HibernateUtil.getSession();
             //TestOperater.test();
             new SplashScreen().setVisible(true);
+            //TestGrupa.test();
        
     }
     

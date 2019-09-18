@@ -16,7 +16,7 @@ public class Utility {
     }
     
     public static String getFormatDatumaIVremena(){
-        return "dd. MM. YYYY HH:mm:ss";
+        return "dd. MM. YYYY. HH:mm:ss";
     }
     
     public static boolean isDev(){

@@ -10,8 +10,6 @@ import edunova.model.Smjer;
 import edunova.utility.EdunovaException;
 import edunova.utility.Utility;
 import java.math.BigDecimal;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -19,7 +17,7 @@ import javax.swing.JOptionPane;
  *
  * @author Admin
  */
-public class FormaSmjerovi extends javax.swing.JFrame {
+public class FormaSmjerovi extends EdunovaView<Smjer> {
 
     private ObradaSmjer obrada;
 
@@ -32,6 +30,103 @@ public class FormaSmjerovi extends javax.swing.JFrame {
         obrada = new ObradaSmjer();
         lista.setCellRenderer(new SmjerCellRenderer());
         ucitaj();
+    }
+    
+     protected void ucitaj() {
+        DefaultListModel<Smjer> model = new DefaultListModel<>();
+        obrada.getEntiteti().forEach(
+                (smjer) -> {
+                    model.addElement(smjer);
+                });
+
+        lista.setModel(model);
+        lista.repaint();
+    }
+     
+      protected void spremi(Smjer s){
+        if(!kontrola(s)){
+            return;
+        }
+
+        s.setCertificiran(chbCertificiran.isSelected());
+
+        try {
+            obrada.spremi(s);
+        } catch (EdunovaException ex) {
+            JOptionPane.showMessageDialog(null, ex.getPoruka());
+            return;
+        }
+
+        ucitaj();
+    }
+    
+    protected boolean kontrola(Smjer s){
+        return kontrolaNaziv(s) &&
+                kontrolaTrajanje(s) &&
+                kontrolaTrajanje(s) &&
+                kontrolaUpisnina(s);
+    }
+    
+    private boolean kontrolaNaziv(Smjer s){
+        if(txtNaziv.getText().trim().length()==0){
+           JOptionPane.showMessageDialog(null, "Naziv obavezno");
+                return false; 
+        }
+        s.setNaziv(txtNaziv.getText());
+        return true;
+    }
+    
+    private boolean kontrolaTrajanje(Smjer s){
+         try {
+                s.setTrajanje(Integer.parseInt(txtTrajanje.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Trajanje mora biti broj");
+                return false;
+            }
+         
+         return true;
+    }
+    
+    private boolean kontrolaCijena(Smjer s){
+        if (txtCijena.getText().trim().length() > 0) {
+            try {
+                s.setCijena(new BigDecimal(txtCijena.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Cijena mora biti broj");
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean kontrolaUpisnina(Smjer s){
+        if (txtUpisnina.getText().trim().length() > 0) {
+            try {
+                s.setUpisnina(new BigDecimal(txtUpisnina.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Upisnina mora biti broj");
+                return false;
+            }
+        }else{
+            s.setUpisnina(BigDecimal.ZERO);
+        }
+        
+        return true;
+    }
+    
+    protected void postaviVrijednosti(Smjer s){
+        txtNaziv.setText(s.getNaziv());
+
+        txtTrajanje.setText(s.getTrajanje() == null ? ""
+                : s.getTrajanje().toString());
+
+        txtCijena.setText(s.getCijena() == null ? ""
+                : s.getCijena().toString());
+
+        txtUpisnina.setText(s.getUpisnina() == null ? ""
+                : s.getUpisnina().toString());
+
+        chbCertificiran.setSelected(s.isCertificiran());
     }
 
     /**
@@ -205,18 +300,7 @@ public class FormaSmjerovi extends javax.swing.JFrame {
         if(s==null){
             return;
         }
-        txtNaziv.setText(s.getNaziv());
-
-        txtTrajanje.setText(s.getTrajanje() == null ? ""
-                : s.getTrajanje().toString());
-
-        txtCijena.setText(s.getCijena() == null ? ""
-                : s.getCijena().toString());
-
-        txtUpisnina.setText(s.getUpisnina() == null ? ""
-                : s.getUpisnina().toString());
-
-        chbCertificiran.setSelected(s.isCertificiran());
+        postaviVrijednosti(s);
 
 
     }//GEN-LAST:event_listaValueChanged
@@ -229,64 +313,6 @@ public class FormaSmjerovi extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnDodajActionPerformed
 
-    private void spremi(Smjer s){
-        if(!kontrola(s)){
-            return;
-        }
-
-        s.setCertificiran(chbCertificiran.isSelected());
-
-        try {
-            obrada.spremi(s);
-        } catch (EdunovaException ex) {
-            JOptionPane.showMessageDialog(null, ex.getPoruka());
-            return;
-        }
-
-        ucitaj();
-    }
-    
-    private boolean kontrola(Smjer s){
-        
-        if(txtNaziv.getText().trim().length()==0){
-           JOptionPane.showMessageDialog(null, "Naziv obavezno");
-                return false; 
-        }
-        
-        
-        s.setNaziv(txtNaziv.getText());
-
-            try {
-                s.setTrajanje(Integer.parseInt(txtTrajanje.getText()));
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Trajanje mora biti broj");
-                return false;
-            }
-        
-
-        if (txtCijena.getText().trim().length() > 0) {
-            try {
-                s.setCijena(new BigDecimal(txtCijena.getText()));
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Cijena mora biti broj");
-                return false;
-            }
-        }
-
-        if (txtUpisnina.getText().trim().length() > 0) {
-            try {
-                s.setUpisnina(new BigDecimal(txtUpisnina.getText()));
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Upisnina mora biti broj");
-                return false;
-            }
-        }else{
-            s.setUpisnina(BigDecimal.ZERO);
-        }
-        
-        
-        return true;
-    }
     private void btnPromjeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjeniActionPerformed
         
         Smjer s = lista.getSelectedValue();
@@ -355,19 +381,5 @@ public class FormaSmjerovi extends javax.swing.JFrame {
     private javax.swing.JTextField txtUpisnina;
     // End of variables declaration//GEN-END:variables
 
-    private void ucitaj() {
-        DefaultListModel<Smjer> model = new DefaultListModel<>();
-        obrada.getEntiteti().forEach(
-                (smjer) -> {
-                    model.addElement(smjer);
-                });
-
-        lista.setModel(model);
-        lista.repaint();
-    }
-
-    @Override
-    public void list() {
-        super.list(); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }

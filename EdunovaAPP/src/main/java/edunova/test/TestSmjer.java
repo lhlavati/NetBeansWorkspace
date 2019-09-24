@@ -20,7 +20,7 @@ public class TestSmjer {
     public static void test() {
         Smjer s = new Smjer();
         s.setNaziv("Java programiranje");
-
+        s.setTrajanje(130);
         ObradaSmjer obrada = new ObradaSmjer();
         try {
             s = obrada.spremi(s);

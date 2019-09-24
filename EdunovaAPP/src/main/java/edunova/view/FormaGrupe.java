@@ -5,13 +5,14 @@
  */
 package edunova.view;
 
+import edunova.model.Grupa;
 import edunova.utility.Utility;
 
 /**
  *
  * @author Admin
  */
-public class FormaGrupe extends javax.swing.JFrame {
+public class FormaGrupe extends EdunovaView<Grupa> {
 
     /**
      * Creates new form FormaSmjerovi
@@ -46,6 +47,26 @@ public class FormaGrupe extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    @Override
+    protected void ucitaj() {
+       
+    }
+
+    @Override
+    protected void spremi(Grupa entitet) {
+        
+    }
+
+    @Override
+    protected boolean kontrola(Grupa entitet) {
+        return false;
+    }
+
+    @Override
+    protected void postaviVrijednosti(Grupa entitet) {
+        
+    }
 
   
 

@@ -22,5 +22,12 @@ public class Utility {
     public static boolean isDev(){
         return true;
     }
+
+    public static String dohvatiOib() {
+       
+        
+        
+        return "";
+    }
     
 }

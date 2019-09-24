@@ -5,6 +5,7 @@
  */
 package edunova;
 
+import edunova.test.PocetniInsert;
 import edunova.test.TestGrupa;
 import edunova.view.SplashScreen;
 
@@ -16,10 +17,16 @@ public class Start {
     
     public static void main(String[] args) {
        
-            //HibernateUtil.getSession();
-            //TestOperater.test();
+           
             new SplashScreen().setVisible(true);
-            //TestGrupa.test();
+            /*
+            Na novom računalu postaviti u hibernate.cfg.xml
+            <property name="hbm2ddl.auto">create</property>
+            pa izvesti PocetniInsert.izvedi()
+            pa vratiti 
+            <property name="hbm2ddl.auto">update</property>
+            */
+            //PocetniInsert.izvedi();
        
     }
     

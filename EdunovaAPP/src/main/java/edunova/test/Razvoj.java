@@ -5,9 +5,21 @@
  */
 package edunova.test;
 
+import edunova.utility.Utility;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+import org.htmlcleaner.CleanerProperties;
+import org.htmlcleaner.DomSerializer;
+import org.htmlcleaner.HtmlCleaner;
+import org.htmlcleaner.TagNode;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -16,27 +28,7 @@ import java.net.URL;
 public class Razvoj {
 
     public static void main(String[] args) {
-        BufferedReader br = null;
-
-        try {
-            URL url = new URL("http://oib.itcentrala.com/oib-generator/");
-            br = new BufferedReader(new InputStreamReader(url.openStream()));
-            String line;
-            StringBuilder sb = new StringBuilder();
-            //lošije
-           // String rez="";
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                //lošije
-                //rez+=line+"\n";
-            }
-            System.out.println(sb);
-            //lošije
-            //System.out.println(rez);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+     UnosPolaznika.izvedi(10000);
     }
 
 }

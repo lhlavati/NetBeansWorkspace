@@ -7,7 +7,10 @@ package edunova.test;
 
 import edunova.controller.ObradaPolaznik;
 import edunova.model.Polaznik;
+import edunova.utility.EdunovaException;
 import edunova.utility.Utility;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,6 +27,20 @@ public class UnosPolaznika {
             p.setPrezime("" +i);
             p.setOib(Utility.dohvatiOib());
             
+            try {
+                p = obrada.spremi(p);
+                
+                System.out.println("Spremio " + p.getSifra());
+                
+            } catch (EdunovaException ex) {
+                System.out.println(ex.getPoruka());
+            }
+            
+            try {
+                Thread.sleep((int)Math.random()*1000);
+            } catch (InterruptedException ex) {
+                
+            }
             
             
         }

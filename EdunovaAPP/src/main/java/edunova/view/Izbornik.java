@@ -45,6 +45,7 @@ public class Izbornik extends javax.swing.JFrame {
         btnPredavaci = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jmFile = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jmOProgramu = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -114,6 +115,14 @@ public class Izbornik extends javax.swing.JFrame {
         );
 
         jmFile.setText("File");
+
+        jMenuItem3.setText("Tečajna lista");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jmFile.add(jMenuItem3);
 
         jMenuItem1.setMnemonic('q');
         jMenuItem1.setText("Izlaz");
@@ -187,6 +196,10 @@ public class Izbornik extends javax.swing.JFrame {
         new FormaPredavaci().setVisible(true);
     }//GEN-LAST:event_btnPredavaciActionPerformed
 
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        new TecajnaLista().setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
    private class Vrijeme extends Thread{
        
         SimpleDateFormat df = new SimpleDateFormat(
@@ -214,6 +227,7 @@ public class Izbornik extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenu jmFile;

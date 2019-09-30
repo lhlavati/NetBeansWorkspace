@@ -19,6 +19,16 @@ public class ObradaPolaznik extends ObradaOsoba<Polaznik>{
     public List<Polaznik> getEntiteti() {
         return session.createQuery("from Polaznik").list();
     }
+    
+    public List<Polaznik> getEntiteti(String uvjet) {
+        return session.createQuery("from Polaznik a "
+                + " where a.ime like :uvjet or "
+                + " a.prezime like :uvjet")
+                .setParameter("uvjet", "%" + uvjet + "%")
+                .setMaxResults(20)
+                .list();
+    }
+
 
     @Override
     protected void kontrolaSpremi(Polaznik entitet) throws EdunovaException {

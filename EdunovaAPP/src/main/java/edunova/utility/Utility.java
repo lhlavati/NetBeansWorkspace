@@ -50,6 +50,7 @@ public class Utility {
             XPath xPath = XPathFactory.newInstance().newXPath();
             String oib = (String)xPath.evaluate("/html/body/div[1]/div[1]/text()", 
                     doc,XPathConstants.STRING);
+
             return oib;
         } catch (Exception ex) {
             
@@ -62,7 +63,7 @@ public class Utility {
     public static String ucitajURL(String adresa){
         try {
             URL url = new URL(adresa);
-            InputStreamReader isr = new InputStreamReader(url.openStream());
+            InputStreamReader isr = new InputStreamReader(url.openStream(), "UTF-8");
             BufferedReader br = new BufferedReader(isr);
             String line;
             StringBuilder sb = new StringBuilder();

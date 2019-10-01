@@ -28,6 +28,10 @@ public class ObradaPolaznik extends ObradaOsoba<Polaznik>{
                 .setMaxResults(20)
                 .list();
     }
+    
+    public List<Polaznik> prvaDva(String uvjet) {
+        return session.createQuery("from Polaznik a where a.ime like :uvjet or a.prezime like :uvjet").setParameter("uvjet", uvjet + "%").setMaxResults(20).list();
+    }
 
 
     @Override

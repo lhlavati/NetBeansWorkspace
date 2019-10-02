@@ -96,12 +96,12 @@ public class Smjer extends Entitet implements Serializable {
         this.certificiran = certificiran;
     }
 
-    /*
+    
     @Override
     public String toString() {
         return naziv;
     }
-    */
+    
     
 
     

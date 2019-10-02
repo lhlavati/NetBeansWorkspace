@@ -9,6 +9,7 @@ import edunova.controller.ObradaPolaznik;
 import edunova.model.Polaznik;
 import edunova.utility.EdunovaException;
 import edunova.utility.Utility;
+import java.io.File;
 import java.io.FileOutputStream;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -26,7 +27,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class FormaPolaznici extends EdunovaView<Polaznik> {
 
     private ObradaPolaznik obrada;
-
     /**
      * Creates new form FormaSmjerovi
      */
@@ -34,23 +34,23 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
         initComponents();
         obrada = new ObradaPolaznik();
         setTitle(Utility.getNazivAplikacije() + " Polaznici");
-        ucitaj();
+        btnTrazi.setText("\uD83D\uDD0D");
+       // ucitaj();
     }
-
-    protected void ucitaj() {
+    
+     protected void ucitaj() {
         DefaultListModel<Polaznik> model = new DefaultListModel<>();
-        obrada.getEntiteti().forEach(
+        obrada.getEntiteti(txtUvjet.getText().trim()).forEach(
                 (polaznik) -> {
                     model.addElement(polaznik);
                 });
 
         lista.setModel(model);
         lista.repaint();
-
     }
-
-    protected void spremi(Polaznik p) {
-        if (!kontrola(p)) {
+     
+      protected void spremi(Polaznik p){
+        if(!kontrola(p)){
             return;
         }
         p.setOib(txtOIB.getText());
@@ -59,6 +59,7 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
         p.setEmail(txtEmail.getText());
         p.setBrojUgovora(txtBrojUgovora.getText());
 
+     
         try {
             obrada.spremi(p);
         } catch (EdunovaException ex) {
@@ -68,17 +69,18 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
 
         ucitaj();
     }
-
-    protected boolean kontrola(Polaznik p) {
+    
+    protected boolean kontrola(Polaznik p){
         return true;
     }
-
-    protected void postaviVrijednosti(Polaznik p) {
-        txtOIB.setText(p.getOib());
-        txtIme.setText(p.getIme());
-        txtPrezime.setText(p.getPrezime());
-        txtEmail.setText(p.getEmail());
-        txtBrojUgovora.setText(p.getBrojUgovora());
+    
+    
+    protected void postaviVrijednosti(Polaznik p){
+     txtOIB.setText(p.getOib());
+     txtIme.setText(p.getIme());
+     txtPrezime.setText(p.getPrezime());
+     txtEmail.setText(p.getEmail());
+     txtBrojUgovora.setText(p.getBrojUgovora());
     }
 
     /**
@@ -107,9 +109,8 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
         btnPromjeni = new javax.swing.JButton();
         btnObrisi = new javax.swing.JButton();
         txtUvjet = new javax.swing.JTextField();
+        btnTrazi = new javax.swing.JButton();
         btnExportExcel = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
-        chkPrvaDva = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -169,7 +170,7 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
                             .addComponent(txtPrezime)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 76, Short.MAX_VALUE))))
                     .addComponent(txtOIB))
                 .addContainerGap())
         );
@@ -213,9 +214,10 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
             }
         });
 
-        txtUvjet.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtUvjetKeyReleased(evt);
+        btnTrazi.setText("L");
+        btnTrazi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTraziActionPerformed(evt);
             }
         });
 
@@ -226,33 +228,34 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
             }
         });
 
-        jLabel6.setText("Traži");
-
-        chkPrvaDva.setText("Znam prva dva slova");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(btnExportExcel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(chkPrvaDva, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(txtUvjet, javax.swing.GroupLayout.Alignment.LEADING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnDodaj)
-                        .addGap(14, 14, 14)
-                        .addComponent(btnPromjeni)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnObrisi)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(20, 20, 20))
+                        .addComponent(btnExportExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnTrazi)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnDodaj)
+                                .addGap(14, 14, 14)
+                                .addComponent(btnPromjeni)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnObrisi)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,17 +270,15 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
                             .addComponent(btnPromjeni)
                             .addComponent(btnObrisi)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel6)
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnTrazi))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtUvjet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chkPrvaDva)
-                        .addGap(7, 7, 7)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnExportExcel)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
@@ -289,7 +290,7 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
             return;
         }
         Polaznik p = lista.getSelectedValue();
-        if (p == null) {
+        if(p==null){
             return;
         }
         postaviVrijednosti(p);
@@ -306,7 +307,7 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
     private void btnPromjeniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPromjeniActionPerformed
 
         Polaznik p = lista.getSelectedValue();
-        if (p == null) {
+        if(p==null){
             JOptionPane.showMessageDialog(null, "Prvo odaberite stavku");
             return;
         }
@@ -317,7 +318,7 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
         Polaznik p = lista.getSelectedValue();
-        if (p == null) {
+        if(p==null){
             JOptionPane.showMessageDialog(null, "Prvo odaberite stavku");
             return;
 
@@ -327,15 +328,15 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
             JOptionPane.showMessageDialog(null, "Ne možete obrisati ovu grupu");
             return;
         }
-         */
-        if (JOptionPane.showConfirmDialog(
-                null, //roditelj, bude null
-                "Sigurno obrisati" + p.getIme() + " " + p.getPrezime(), //tijelo dijaloga
-                "Brisanje smjera", // naslov
-                JOptionPane.YES_NO_OPTION, //vrsta opcija
-                JOptionPane.QUESTION_MESSAGE) //ikona
-                == JOptionPane.NO_OPTION) {
-            return;
+        */
+        if(JOptionPane.showConfirmDialog(
+            null, //roditelj, bude null
+            "Sigurno obrisati" + p.getIme() + " " + p.getPrezime(), //tijelo dijaloga
+            "Brisanje smjera", // naslov
+            JOptionPane.YES_NO_OPTION, //vrsta opcija
+            JOptionPane.QUESTION_MESSAGE) //ikona
+        ==JOptionPane.NO_OPTION){
+        return;
         }
 
         try {
@@ -349,86 +350,81 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
 
     }//GEN-LAST:event_btnObrisiActionPerformed
 
+    private void btnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraziActionPerformed
+        
+        if(txtUvjet.getText().trim().length()<2){
+            JOptionPane.showMessageDialog(null,"Mnimalno dva znaka");
+            return;
+        }
+        
+        ucitaj();
+        
+    }//GEN-LAST:event_btnTraziActionPerformed
+
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
-
+       
         try {
+            
+        
+        Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
 
-            Workbook workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
-
-            /* CreationHelper helps us create instances of various things like DataFormat, 
+        /* CreationHelper helps us create instances of various things like DataFormat, 
            Hyperlink, RichTextString etc, in a format (HSSF, XSSF) independent way */
-            CreationHelper createHelper = workbook.getCreationHelper();
+        CreationHelper createHelper = workbook.getCreationHelper();
 
-            // Create a Sheet
-            Sheet sheet = workbook.createSheet("Polaznici");
+        // Create a Sheet
+        Sheet sheet = workbook.createSheet("Polaznici");
 
-            // Create a Row
-            Row headerRow = sheet.createRow(0);
+       
+
+
+        // Create a Row
+        Row headerRow = sheet.createRow(0);
 
             Cell cell = headerRow.createCell(0);
             cell.setCellValue("Ime");
-
+        
             cell = headerRow.createCell(1);
             cell.setCellValue("Prezime");
+        
+            int rowNum=1;
+        for(Polaznik p : obrada.getEntiteti()) {
+            Row row = sheet.createRow(rowNum++);
 
-            int rowNum = 1;
-            for (Polaznik p : obrada.getEntiteti()) {
-                Row row = sheet.createRow(rowNum++);
+            row.createCell(0)
+                    .setCellValue(p.getIme());
 
-                row.createCell(0)
-                        .setCellValue(p.getIme());
+            row.createCell(1)
+                    .setCellValue(p.getPrezime());
 
-                row.createCell(1)
-                        .setCellValue(p.getPrezime());
+        }
 
-            }
+	
+        // Write the output to a file
+        FileOutputStream fileOut = new FileOutputStream("f:" + File.separator + "poi-generated-file.xlsx");
+        workbook.write(fileOut);
+        fileOut.close();
 
-            // Write the output to a file
-            FileOutputStream fileOut = new FileOutputStream("poi-generated-file.xlsx");
-            workbook.write(fileOut);
-            fileOut.close();
-
-            // Closing the workbook
-            workbook.close();
-
+        // Closing the workbook
+        workbook.close();
+        
         } catch (Exception e) {
         }
     }//GEN-LAST:event_btnExportExcelActionPerformed
 
-    private void txtUvjetKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUvjetKeyReleased
-        DefaultListModel<Polaznik> model = new DefaultListModel<>();
-        if (chkPrvaDva.isSelected()) {
-            obrada.prvaDva(txtUvjet.getText().trim()).forEach(
-                    (polaznik) -> {
-                        model.addElement(polaznik);
-                    });
-
-            lista.setModel(model);
-            lista.repaint();
-        } else {
-            obrada.getEntiteti(txtUvjet.getText().trim()).forEach(
-                    (polaznik) -> {
-                        model.addElement(polaznik);
-                    });
-
-            lista.setModel(model);
-            lista.repaint();
-        }
-    }//GEN-LAST:event_txtUvjetKeyReleased
-
+  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodaj;
     private javax.swing.JButton btnExportExcel;
     private javax.swing.JButton btnObrisi;
     private javax.swing.JButton btnPromjeni;
-    private javax.swing.JCheckBox chkPrvaDva;
+    private javax.swing.JButton btnTrazi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList<Polaznik> lista;

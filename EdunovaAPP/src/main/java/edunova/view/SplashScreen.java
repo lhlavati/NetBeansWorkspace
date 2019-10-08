@@ -6,7 +6,9 @@
 package edunova.view;
 
 import edunova.controller.ObradaSmjer;
+import edunova.utility.HibernateUtil;
 import java.awt.Color;
+import org.hibernate.Session;
 
 /**
  *
@@ -28,7 +30,12 @@ public class SplashScreen extends javax.swing.JFrame {
 
         @Override
         public void run() {
-            if(new ObradaSmjer().getEntiteti().size()>0){
+//            if(new ObradaSmjer().getEntiteti().size()>0){
+//                new Autorizacija().setVisible(true);
+//                dispose();
+//            }
+            Session s = HibernateUtil.getSession();
+            if(s.getMetamodel().getEntities().size()>0){
                 new Autorizacija().setVisible(true);
                 dispose();
             }

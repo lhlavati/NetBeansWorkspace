@@ -353,7 +353,7 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
     private void btnTraziActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraziActionPerformed
         
         if(txtUvjet.getText().trim().length()<2){
-            JOptionPane.showMessageDialog(null,"Mnimalno dva znaka");
+            JOptionPane.showMessageDialog(null,"Minimalno dva znaka");
             return;
         }
         

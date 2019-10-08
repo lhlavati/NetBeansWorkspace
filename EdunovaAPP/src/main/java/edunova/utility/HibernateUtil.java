@@ -5,6 +5,7 @@
  */
 package edunova.utility;
 
+import java.io.File;
 import org.hibernate.Session;
 import org.hibernate.cfg.Configuration;
 
@@ -25,7 +26,20 @@ public class HibernateUtil {
     public static Session getSession(){
         if(session==null){
             try {
+                
+                /*
+                String putanjaDirektorija = new File(HibernateUtil.class.getProtectionDomain().
+                        getCodeSource().getLocation().toURI()).getParent();
+                
+                
                 session = new Configuration()
+                        .configure(new File(putanjaDirektorija + File.separator + "hibernate.cfg.xml"))
+                        // design pattern: FactoryPattern
+                        .buildSessionFactory()
+                        .openSession();
+*/
+                
+                 session = new Configuration()
                         .configure()
                         // design pattern: FactoryPattern
                         .buildSessionFactory()

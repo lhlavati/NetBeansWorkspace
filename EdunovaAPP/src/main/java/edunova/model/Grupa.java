@@ -6,6 +6,7 @@
 package edunova.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -30,7 +31,9 @@ public class Grupa extends Entitet implements Serializable{
     private Predavac predavac;
     
     @ManyToMany
-    private List<Polaznik> polaznici;
+    private List<Polaznik> polaznici=new ArrayList<>();
+    
+    private Integer brojPolaznika;
 
     public Grupa() {
         super();
@@ -43,6 +46,14 @@ public class Grupa extends Entitet implements Serializable{
         this.smjer = smjer;
         this.predavac = predavac;
         this.polaznici = polaznici;
+    }
+
+    public Integer getBrojPolaznika() {
+        return brojPolaznika;
+    }
+
+    public void setBrojPolaznika(Integer brojPolaznika) {
+        this.brojPolaznika = brojPolaznika;
     }
     
     

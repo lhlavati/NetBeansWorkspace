@@ -8,11 +8,16 @@ package edunova.view;
 import edunova.controller.ObradaPolaznik;
 import edunova.model.Polaznik;
 import edunova.utility.EdunovaException;
+import edunova.utility.HibernateUtil;
 import edunova.utility.Utility;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileOutputStream;
+import java.util.Date;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
@@ -375,6 +380,9 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
 
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
        
+        
+        HibernateUtil.getSession().clear();
+        
         try {
             
         
@@ -398,6 +406,9 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
         
             cell = headerRow.createCell(1);
             cell.setCellValue("Prezime");
+            
+            cell = headerRow.createCell(2);
+            cell.setCellValue("Ukupno grupa");
         
             int rowNum=1;
         for(Polaznik p : obrada.getEntiteti()) {
@@ -408,19 +419,43 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
 
             row.createCell(1)
                     .setCellValue(p.getPrezime());
+            int b = p.getGrupe().size();
+
+            row.createCell(2)
+                    .setCellValue(b);
 
         }
 
+        
+            JFileChooser datoteka=new JFileChooser();
+            datoteka.addChoosableFileFilter(
+                    new FileNameExtensionFilter("Microsoft Excel", "xlsx"));
+            datoteka.setCurrentDirectory(new File(System.getProperty("user.home")));
+            datoteka.setSelectedFile(new File(datoteka.getCurrentDirectory().getAbsolutePath() + File.separator + "Popispolaznika.xlsx"));
+            
+            if(datoteka.showSaveDialog(this)==JFileChooser.CANCEL_OPTION){
+                return;
+            }
+            
+           
+            
+//            if(!datoteka.getSelectedFile().canWrite()){
+//                JOptionPane.showMessageDialog(null, "Zatvorite prvo datoteku u otvorenom programu pa ponovite akciju");
+//                return;
+//            }
 	
         // Write the output to a file
-        FileOutputStream fileOut = new FileOutputStream("f:" + File.separator + "poi-generated-file.xlsx");
+        FileOutputStream fileOut = new FileOutputStream(datoteka.getSelectedFile());
         workbook.write(fileOut);
         fileOut.close();
 
         // Closing the workbook
         workbook.close();
         
+        Runtime.getRuntime().exec("cmd /c start excel.exe " + datoteka.getSelectedFile().getAbsolutePath());
+        
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnExportExcelActionPerformed
 

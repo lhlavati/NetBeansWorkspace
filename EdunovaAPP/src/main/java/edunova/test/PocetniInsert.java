@@ -12,6 +12,7 @@ import edunova.model.Grupa;
 import edunova.model.Operater;
 import edunova.model.Smjer;
 import edunova.utility.EdunovaException;
+import java.math.BigDecimal;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -27,6 +28,7 @@ public class PocetniInsert {
         ObradaSmjer obrada = new ObradaSmjer();
         try {
             s = obrada.spremi(s);
+          //  Smjer ss = obrada.spremi(new Smjer(0, "nnnn", BigDecimal.TEN, BigDecimal.ONE, 1, true));
         } catch (EdunovaException e) {
             System.out.println(e.getPoruka());
         }

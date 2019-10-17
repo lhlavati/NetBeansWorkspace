@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -31,6 +33,9 @@ public class Grupa extends Entitet implements Serializable{
     private Predavac predavac;
     
     @ManyToMany
+    @JoinTable(name = "clan",
+		joinColumns = { @JoinColumn(name = "grupa") },
+		inverseJoinColumns = { @JoinColumn(name = "polaznik") })
     private List<Polaznik> polaznici=new ArrayList<>();
     
     private Integer brojPolaznika;

@@ -63,7 +63,6 @@ public class FormaSmjerovi extends EdunovaView<Smjer> {
     protected boolean kontrola(Smjer s){
         return kontrolaNaziv(s) &&
                 kontrolaTrajanje(s) &&
-                kontrolaTrajanje(s) &&
                 kontrolaUpisnina(s);
     }
     

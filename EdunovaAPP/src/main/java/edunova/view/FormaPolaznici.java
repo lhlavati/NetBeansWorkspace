@@ -39,13 +39,25 @@ public class FormaPolaznici extends EdunovaView<Polaznik> {
     }
     
      protected void ucitaj() {
+         long najveci=0;
+         int index=0;
         DefaultListModel<Polaznik> model = new DefaultListModel<>();
-        obrada.getEntiteti(txtUvjet.getText().trim()).forEach(
-                (polaznik) -> {
-                    model.addElement(polaznik);
-                });
+        
+         for (Polaznik polaznik : obrada.getEntiteti(txtUvjet.getText().trim())) {
+              model.addElement(polaznik);
+                    if(polaznik.getDatumPromjene()!=null &&
+                            polaznik.getDatumPromjene().getTime()>najveci
+                            ){
+                        najveci=polaznik.getDatumPromjene().getTime();
+                        index=model.getSize();
+                    }
+         }
+        
+        
+
 
         lista.setModel(model);
+        lista.setSelectedIndex(index-1);
         lista.repaint();
     }
      

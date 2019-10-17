@@ -28,7 +28,10 @@ import org.w3c.dom.Document;
 public class Razvoj {
 
     public static void main(String[] args) {
-     UnosPolaznika.izvedi(10000);
+    // UnosPolaznika.izvedi(10000);
+    
+    
+    
     }
 
 }

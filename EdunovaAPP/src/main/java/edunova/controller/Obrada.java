@@ -5,8 +5,10 @@
  */
 package edunova.controller;
 
+import edunova.model.Entitet;
 import edunova.utility.EdunovaException;
 import edunova.utility.HibernateUtil;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -14,7 +16,7 @@ import org.hibernate.Session;
  *
  * @author Admin
  */
-public abstract class Obrada<T> {
+public abstract class Obrada<T extends Entitet> {
     
     protected abstract void kontrolaSpremi(T entitet)throws EdunovaException;
     protected abstract void kontrolaBrisi(T entitet)throws EdunovaException;
@@ -29,6 +31,7 @@ public abstract class Obrada<T> {
     public T spremi(T entitet) throws EdunovaException{
         //polimorfizam
         kontrolaSpremi(entitet);
+        entitet.setDatumPromjene(new Date());
         session.beginTransaction();
         session.save(entitet);
         session.getTransaction().commit();

@@ -5,6 +5,7 @@
  */
 package edunova.model;
 
+import java.util.Date;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -19,6 +20,8 @@ public abstract class Entitet {
     @Id
     @GeneratedValue
     private Integer sifra;
+    
+    private Date datumPromjene;
 
     public Entitet() {
     }
@@ -34,5 +37,15 @@ public abstract class Entitet {
     public void setSifra(Integer sifra) {
         this.sifra = sifra;
     }
+
+    public Date getDatumPromjene() {
+        return datumPromjene;
+    }
+
+    public void setDatumPromjene(Date datumPromjene) {
+        this.datumPromjene = datumPromjene;
+    }
+    
+    
 
 }
